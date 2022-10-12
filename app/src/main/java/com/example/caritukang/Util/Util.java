@@ -11,10 +11,12 @@ import com.example.caritukang.R;
 
 import java.text.NumberFormat;
 import java.util.Locale;
+import java.util.regex.Pattern;
 
 public class Util {
+    public static String regexPattern = "^(.+)@(\\S+)$";
     public static void switchFragment(Fragment fragmentTarget , FragmentActivity activityFragment){
-        activityFragment.getSupportFragmentManager().beginTransaction().replace(R.id.id_frame_layout,fragmentTarget).commit();
+        activityFragment.getSupportFragmentManager().beginTransaction().replace(R.id.id_base_frame_layout,fragmentTarget).commit();
     }
 
     public static void setCustomColorText(TextView mTextViewTarget , String oldText , String coloredText , String coloredHex){
@@ -25,6 +27,12 @@ public class Util {
             // getActivity().getWindow().setNavigationBarColor(getResources().getColor(R.color.green_background));
         }
     }
+    public static boolean patternMatches(String emailAddress, String regexPattern) {
+        return Pattern.compile(regexPattern)
+                .matcher(emailAddress)
+                .matches();
+    }
+
     public static String convertToRupiah(int totalRupiah){
         Locale myIndonesianLocale = new Locale("in", "ID");
         NumberFormat formater = NumberFormat.getCurrencyInstance(myIndonesianLocale);

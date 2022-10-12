@@ -126,7 +126,7 @@
                     android:layout_gravity="center"
                     android:layout_marginTop="@dimen/_20sdp"
                     android:text="Don’t have an account? Sign Up"
-                    android:textColor="@color/black"
+                    android:textColor="@color/base_clor_app"
                     android:textSize="@dimen/_14ssp"
                     android:id="@+id/id_tv_doesnt_have_acc"
                     />
