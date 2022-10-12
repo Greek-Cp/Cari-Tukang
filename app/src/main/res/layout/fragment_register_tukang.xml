@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        tools:context=".Fragment.FragmentRegister"
+        tools:context=".Fragment.FragmentRegisterTukang"
         android:background="@color/base_clor_app"
         >
         <LinearLayout
@@ -55,7 +55,7 @@
                     android:padding="10dp"
                     android:scrollHorizontally="true"
                     android:singleLine="true"
-                    android:text="Cari Tukang"
+                    android:text="Daftar Tukang"
                     android:textColor="@color/white"
                     android:textSize="@dimen/_20ssp"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -88,7 +88,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Daftar Cari Tukang"
+                        android:text="Daftar Sebagai Tukang"
                         android:layout_gravity="center_horizontal"
                         android:layout_marginTop="30dp"
                         android:textStyle="bold"
@@ -194,6 +194,27 @@
                         android:layout_marginLeft="20dp"
                         android:layout_marginTop="@dimen/_13sdp"
                         android:layout_marginRight="20dp"
+                        android:hint="Alamat Lengkap"
+                        app:boxCornerRadiusBottomEnd="20dp"
+                        app:boxCornerRadiusBottomStart="20dp"
+                        app:boxCornerRadiusTopEnd="20dp"
+                        app:boxCornerRadiusTopStart="20dp"
+                        app:boxStrokeWidth="0dp"
+                        app:boxStrokeWidthFocused="0dp"
+                        >
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_40sdp"
+                            android:textSize="@dimen/_10ssp"
+                            android:id="@+id/id_edit_text_alamat_lengkap"
+                            />
+                    </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="@dimen/_13sdp"
+                        android:layout_marginRight="20dp"
                         android:hint="Password"
                         app:boxCornerRadiusBottomEnd="20dp"
                         app:boxCornerRadiusBottomStart="20dp"
@@ -224,7 +245,6 @@
                         app:boxCornerRadiusTopStart="20dp"
                         app:boxStrokeWidth="0dp"
                         app:boxStrokeWidthFocused="0dp"
-
                         >
                         <com.google.android.material.textfield.TextInputEditText
                             android:layout_width="match_parent"
@@ -250,7 +270,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Register Sebagai Tukang ?"
+                        android:text="Register Sebagai Pencari Tukang ?"
                         android:textColor="@color/base_clor_app"
                         android:textAlignment="center"
                         android:textSize="@dimen/_15ssp"
@@ -259,7 +279,7 @@
                         android:layout_marginLeft="30dp"
                         android:layout_marginRight="30dp"
                         android:layout_marginBottom="40dp"
-                        android:id="@+id/id_tv_regist_sebagai_tukang"
+                        android:id="@+id/id_tv_tukang"
                         />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "480075207025",
+    "project_id": "cari-tukang-1fe9d",
+    "storage_bucket": "cari-tukang-1fe9d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:480075207025:android:bc922975c31468e31aa6d0",
+        "android_client_info": {
+          "package_name": "com.example.caritukang"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "480075207025-cv1hg4ii6btklb1gamp6ombbo68g22sb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC7_mFCJADmayn-rWAmm_snJl4r9iVPQ3c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "480075207025-cv1hg4ii6btklb1gamp6ombbo68g22sb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

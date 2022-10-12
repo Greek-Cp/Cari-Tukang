@@ -1,6 +1,6 @@
 package com.example.caritukang.Model;
 
-public class User {
+public class UserTukang {
     private String nameUser;
     private String alamatUser;
     private String nomorHpUser;
@@ -10,7 +10,8 @@ public class User {
     private String dataEmail;
     private int saldoUser;
     private String locationGeoXYZUser;
-    public User(){
+
+    public UserTukang(){
         //empty constructor
     }
 

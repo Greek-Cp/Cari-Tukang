@@ -3,6 +3,7 @@ package com.example.caritukang.Fragment;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
@@ -17,13 +18,33 @@ import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.caritukang.Model.User;
 import com.example.caritukang.R;
+import com.example.caritukang.Util.EncryptPassword;
 import com.example.caritukang.Util.Util;
 import com.example.caritukang.databinding.FragmentRegisterBinding;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -73,7 +94,9 @@ public class FragmentRegister extends Fragment implements View.OnClickListener {
     }
 
     FragmentRegisterBinding fragmentRegisterBinding;
+    FirebaseAuth mAuth;
 
+    final Calendar myCalendar = Calendar.getInstance();
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -83,6 +106,9 @@ public class FragmentRegister extends Fragment implements View.OnClickListener {
         fragmentRegisterBinding.idBtnBackRegisterAccountUser.setOnClickListener(this);
         fragmentRegisterBinding.idEditTextTanggalLahir.setOnClickListener(this);
         checkEmpty();
+        mAuth= FirebaseAuth.getInstance();
+        fragmentRegisterBinding.idBtnDaftar.setOnClickListener(this);
+        fragmentRegisterBinding.idTvRegistSebagaiTukang.setOnClickListener(this);
         return fragmentRegisterBinding.getRoot();
     }
     void setInputTypeEditText(){
@@ -90,6 +116,14 @@ public class FragmentRegister extends Fragment implements View.OnClickListener {
         fragmentRegisterBinding.idEditTextNamaLengkap.setInputType(InputType.TYPE_TEXT_VARIATION_PERSON_NAME);
         fragmentRegisterBinding.idEditTextRegisterNomorHandphone.setInputType(InputType.TYPE_CLASS_PHONE);
         fragmentRegisterBinding.idEditTextTanggalLahir.setInputType(InputType.TYPE_CLASS_DATETIME);
+        //set input all
+        fragmentRegisterBinding.idEditTextRegisterEmail.setText("test_data@gmail.com");
+        fragmentRegisterBinding.idEditTextNamaLengkap.setText("test_datagmail.com");
+        fragmentRegisterBinding.idEditTextRegisterNomorHandphone.setText("1234567891");
+        fragmentRegisterBinding.idEditTextTanggalLahir.setText("12/10/2022");
+        fragmentRegisterBinding.idEditTextRegisterPassword.setText("123412312321");
+        fragmentRegisterBinding.idEditTextRegisterPasswordConfirmation.setText("123412312321");
+
     }
     void checkEmpty(){
         fragmentRegisterBinding.idEditTextRegisterEmail.addTextChangedListener(textWatcher);
@@ -165,7 +199,6 @@ public class FragmentRegister extends Fragment implements View.OnClickListener {
 
         }
     };
-    final Calendar myCalendar = Calendar.getInstance();
 
     @Override
     public void onClick(View view) {
@@ -186,11 +219,105 @@ public class FragmentRegister extends Fragment implements View.OnClickListener {
                 new DatePickerDialog(getActivity(),date,myCalendar.get(Calendar.YEAR),myCalendar.get(Calendar.MONTH),myCalendar.get(Calendar.DAY_OF_MONTH)).show();
                 break;
             case R.id.id_btn_daftar:
+                 DatabaseReference databaseReference = getFirebaseDatabase();
+                try {
+                    databaseReference.child("users").orderByChild("dataEmail").equalTo(getUserRegisterData().getDataEmail()).addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                           if(snapshot.exists()){
+                               Toast.makeText(getActivity().getApplicationContext(), "DATA SUDAH ADA !", Toast.LENGTH_SHORT).show();
+                           } else{
+                               try {
+                                   mAuth.createUserWithEmailAndPassword(getUserRegisterData().getDataEmail(), getUserRegisterData().getPasswordUser()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                       @Override
+                                       public void onComplete(@NonNull Task<AuthResult> task) {
+                                           Toast.makeText(getActivity().getApplicationContext(), "Register Berhasil", Toast.LENGTH_SHORT).show();
+                                       }
+                                   });
+
+                               } catch (InvalidAlgorithmParameterException e) {
+                                   e.printStackTrace();
+                               } catch (NoSuchPaddingException e) {
+                                   e.printStackTrace();
+                               } catch (IllegalBlockSizeException e) {
+                                   e.printStackTrace();
+                               } catch (NoSuchAlgorithmException e) {
+                                   e.printStackTrace();
+                               } catch (BadPaddingException e) {
+                                   e.printStackTrace();
+                               } catch (InvalidKeyException e) {
+                                   e.printStackTrace();
+                               }
+                               try {
+                                   databaseReference.child("users").child(Util.generatedIdUser()).setValue(getUserRegisterData());
+                               } catch (InvalidAlgorithmParameterException e) {
+                                   e.printStackTrace();
+                               } catch (NoSuchPaddingException e) {
+                                   e.printStackTrace();
+                               } catch (IllegalBlockSizeException e) {
+                                   e.printStackTrace();
+                               } catch (NoSuchAlgorithmException e) {
+                                   e.printStackTrace();
+                               } catch (BadPaddingException e) {
+                                   e.printStackTrace();
+                               } catch (InvalidKeyException e) {
+                                   e.printStackTrace();
+                               }
+                           }
+                        }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+                } catch (InvalidAlgorithmParameterException e) {
+                    e.printStackTrace();
+                } catch (NoSuchPaddingException e) {
+                    e.printStackTrace();
+                } catch (IllegalBlockSizeException e) {
+                    e.printStackTrace();
+                } catch (NoSuchAlgorithmException e) {
+                    e.printStackTrace();
+                } catch (BadPaddingException e) {
+                    e.printStackTrace();
+                } catch (InvalidKeyException e) {
+                    e.printStackTrace();
+                }
                 break;
+            case R.id.id_tv_regist_sebagai_tukang:
+                Util.switchFragment(new FragmentRegisterTukang(), getActivity());
+                break;
+
         }
     }
 
 
+    EncryptPassword encryptPassword;
+    private User getUserRegisterData() throws InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException {
+        String _dataEmail = fragmentRegisterBinding.idEditTextRegisterEmail.getText().toString().trim();
+        String _namaLengkap = fragmentRegisterBinding.idEditTextNamaLengkap.getText().toString().trim();
+        String _nomorHandphone = fragmentRegisterBinding.idEditTextRegisterNomorHandphone.getText().toString().trim();
+        String _tanggalLahir = fragmentRegisterBinding.idEditTextTanggalLahir.getText().toString().trim();
+        String _password = fragmentRegisterBinding.idEditTextRegisterPassword.getText().toString().trim();
+        String _passwordConfirmation = fragmentRegisterBinding.idEditTextRegisterPasswordConfirmation.getText().toString().trim();
+        User user = new User();
+        user.setNameUser(_namaLengkap);
+        user.setNomorHpUser(_nomorHandphone);
+        encryptPassword = new EncryptPassword();
+        user.setPasswordUser(encryptPassword.encryptPassword(_password));
+        user.setRoleUser("USER");
+        user.setSaldoUser(0);
+        user.setTanggalLahir(_tanggalLahir);
+        user.setDataEmail(_dataEmail);
+        user.setAlamatUser("TEST");
+        user.setLocationGeoXYZUser("xyz geo");
+        return user;
+    }
+    public DatabaseReference getFirebaseDatabase(){
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance("https://cari-tukang-1fe9d-default-rtdb.asia-southeast1.firebasedatabase.app");
+        return firebaseDatabase.getReference();
+
+    }
     private void updateTanggalLahir(){
         String myFormat="MM/dd/yyyy";
         SimpleDateFormat dateFormat=new SimpleDateFormat(myFormat, Locale.US);
